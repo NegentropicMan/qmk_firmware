@@ -18,7 +18,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    KC_LCTL, TD(TD_ALT_ALTGR), TT(_ALTGR),   KC_SPC, TT(_FUNCTIONS), KC_BSPC
         ),
 	[_ALTGR] = LAYOUT(
-        RESET,   RALT(KC_1), RALT(KC_2), RALT(KC_3), RALT(KC_4), RALT(KC_5),                    RALT(KC_6), RALT(KC_7),    RALT(KC_8), RALT(KC_9), RALT(KC_0), RALT(KC_MINS),
+        KC_GRV,   RALT(KC_1), RALT(KC_2), RALT(KC_3), RALT(KC_4), RALT(KC_5),                    RALT(KC_6), RALT(KC_7),    RALT(KC_8), RALT(KC_9), RALT(KC_0), RALT(KC_MINS),
         KC_NO,   RALT(KC_Q), KC_NO,      KC_NO,      KC_NUBS,    LSFT(KC_8),                    LSFT(KC_9), LSFT(KC_NUBS), KC_NO,      KC_NO,      KC_NO,      RALT(KC_RBRC),
         KC_NO,   KC_NO,      KC_NO,      KC_NO,      KC_NO,      RALT(KC_8),                    RALT(KC_9), KC_RBRC,       KC_BSLS,    KC_EQL,     KC_NUBS,    RALT(KC_NUBS),
         KC_LSFT, KC_NO,      KC_NO,      KC_NO,      KC_NO,      RALT(KC_7), KC_NO,      KC_NO, RALT(KC_0), KC_NO,         KC_NO,      KC_NO,      KC_NO,      KC_RSFT,
