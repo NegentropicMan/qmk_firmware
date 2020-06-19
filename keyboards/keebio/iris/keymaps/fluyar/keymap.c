@@ -16,18 +16,18 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_ALNUM] = LAYOUT(
-        KC_ESC,        DE_1, DE_2, DE_3, DE_4, DE_5,                        DE_6, DE_7, DE_8,    DE_9,   DE_0,    KC_INS,
+        KC_ESC,        DE_1, DE_2, DE_3, DE_4, DE_5,                        DE_6, DE_7, DE_8,    DE_9,   DE_0,   KC_LEAD,
         KC_TAB,        DE_Q, DE_W, DE_E, DE_R, DE_T,                        DE_Z, DE_U, DE_I,    DE_O,   DE_P,    DE_PLUS,
         KC_LGUI,       DE_A, DE_S, DE_D, DE_F, DE_G,                        DE_H, DE_J, DE_K,    DE_L,   DE_LABK, DE_CIRC,
         OSM(MOD_LSFT), DE_Y, DE_X, DE_C, DE_V, DE_B, KC_MUTE,      KC_MPLY, DE_N, DE_M, DE_COMM, DE_DOT, DE_MINS, OSM(MOD_RSFT),
-                                   KC_LALT, KC_LCTRL, MO(_FNMOD),      KC_SPC, MO(_ALTGRMOD), KC_BSPC
+                                   KC_LCTRL, KC_LALT, MO(_ALTGRMOD),      KC_SPC, MO(_FNMOD), KC_BSPC
         ),
 	[_ALTGRMOD] = LAYOUT(
-        KC_NO,   S(DE_SS),      ALGR(DE_2), ALGR(DE_3), KC_NO,   KC_NO,                     KC_NO,   ALGR(DE_7), ALGR(DE_8), ALGR(DE_9), ALGR(DE_0),    KC_DEL,
+        KC_NO,   S(DE_SS),      ALGR(DE_2), ALGR(DE_3), KC_NO,   KC_NO,                     KC_NO,   ALGR(DE_7), ALGR(DE_8), ALGR(DE_9), ALGR(DE_0),   KC_NO,
         KC_NO,   ALGR(DE_Q), KC_NO,      ALGR(DE_E), KC_NO,   KC_NO,                     KC_NO,   DE_UDIA,    KC_NO,      DE_ODIA,    KC_NO,         ALGR(DE_PLUS),
         KC_NO,   DE_ADIA,    DE_SS,      KC_NO,      KC_NO,   KC_NO,                     KC_NO,   KC_NO,      KC_NO,      KC_NO,      ALGR(DE_LABK), DE_ACUT,
         KC_TRNS, KC_NO,      KC_NO,      KC_NO,      KC_NO,   KC_NO,   KC_NO,     KC_NO, KC_NO,   ALGR(DE_M),    KC_NO,      ALGR(DE_SS),      DE_HASH,       KC_TRNS,
-                                                     KC_TRNS, KC_TRNS, KC_NO,     KC_NO, KC_TRNS, KC_DEL
+                                                     KC_TRNS, KC_TRNS, KC_NO,     KC_ENT, KC_TRNS, KC_INS
         ),
   [_FNMOD] = LAYOUT(
         KC_NO,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                      KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10, KC_INS,
@@ -57,6 +57,43 @@ void encoder_update_user(uint8_t index, bool clockwise) {
   }
 }
 
+LEADER_EXTERNS();
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+    // Replace the sequences below with your own sequences.
+    SEQ_ONE_KEY(KC_BSPC) {
+      // When I press KC_LEAD and then backspace, do a ctrl alt entf
+      SEND_STRING(SS_LCTRL(SS_LALT(SS_TAP(X_DELETE))));
+    }
+
+    SEQ_ONE_KEY(DE_C) {
+      SEND_STRING(SS_LCTRL("c"));
+    }
+    SEQ_ONE_KEY(DE_V) {
+      SEND_STRING(SS_LCTRL("v"));
+    }
+    SEQ_ONE_KEY(DE_X) {
+      SEND_STRING(SS_LCTRL("x"));
+    }
+
+    // Note: This is not an array, you don't need to put any commas
+    // or semicolons between sequences.
+    SEQ_TWO_KEYS(KC_N, KC_T) {
+      // When I press KC_LEAD and then N followed by T, this sends CTRL + T
+      SEND_STRING(SS_LCTRL("t"));
+    }
+  }
+}
+
+void leader_start(void) {
+  rgblight_setrgb (0x00,  0xFF, 0xFF);
+}
+void leader_end(void) {
+  rgblight_setrgb (0x00,  0x00, 0x00);
+}
+
 
 // // Make _ALTGRMOD and SHIFTMOD a trilayer (switch to ALTGRSHIFTMOD if both are active)
 // layer_state_t layer_state_set_user(layer_state_t state) {
@@ -74,7 +111,7 @@ enum combos {
 const uint16_t PROGMEM ae_combo[] = {KC_A, KC_E, COMBO_END};
 const uint16_t PROGMEM oe_combo[] = {KC_O, KC_E, COMBO_END};
 const uint16_t PROGMEM ue_combo[] = {KC_U, KC_E, COMBO_END};
-const uint16_t PROGMEM sz_combo[] = {KC_S, KC_Z, COMBO_END};
+const uint16_t PROGMEM sz_combo[] = {KC_S, KC_Y, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [AE_AE] = COMBO(ae_combo, DE_ADIA),
@@ -90,7 +127,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         rgblight_setrgb (0x00,  0x00, 0xFF);
         break;
     case _FNMOD:
-        rgblight_setrgb (0xFF,  0x00, 0x00);
+        rgblight_setrgb (0xFF,  0xFF, 0x00);
         break;
     default: //  for any other layers, or the default layer
         rgblight_setrgb (0x00,  0x00, 0x00);
