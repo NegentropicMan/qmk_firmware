@@ -18,9 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #define TAPPING_TERM 300
-#define RGBLIGHT_ANIMATIONS
 #define COMBO_COUNT 4
 #define COMBO_TERM 500
 #define RGBLIGHT_SPLIT
-#define LEADER_TIMEOUT 300
-#define LEADER_PER_KEY_TIMING
+#define RGBLIGHT_LAYERS
